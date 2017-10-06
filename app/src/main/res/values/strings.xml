@@ -1,8 +1,8 @@
 <resources>
 	<string name="app_name">Michael\'s Pure Imagination</string>
 
-	<string name="SitesActivity.sites_inside">Sites Inside</string>
-	<string name="SitesActivity.sites_nearby">Sites Nearby/Exited</string>
+	<string name="SitesActivity.sites_inside">Stories Inside</string>
+	<string name="SitesActivity.sites_nearby">Stories Nearby</string>
 
 	<string name="BeaconSnifferActivity.title">Beacon Sniffer</string>
 

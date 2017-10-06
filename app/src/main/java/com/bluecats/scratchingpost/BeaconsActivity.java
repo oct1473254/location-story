@@ -15,9 +15,14 @@ import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
 import com.bluecats.scratchingpost.fragments.BeaconProximityFragment;
 import com.bluecats.sdk.BCBeacon.BCProximity;
 import com.bluecats.sdk.BCCategory;
+import com.bluecats.sdk.BCEventFilter;
+import com.bluecats.sdk.BCEventManager;
+import com.bluecats.sdk.BCEventManagerCallback;
 import com.bluecats.sdk.BCLocalNotification;
 import com.bluecats.sdk.BCLocalNotificationManager;
 import com.bluecats.sdk.BCSite;
+import com.bluecats.sdk.BCTrigger;
+import com.bluecats.sdk.BCTriggeredEvent;
 import com.bluecats.sdk.BlueCatsSDK;
 
 import java.util.ArrayList;
@@ -25,8 +30,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class BeaconsActivity extends BaseActivity
-{
+public class BeaconsActivity extends BaseActivity {
 	private static final String TAG = "BeaconsActivity";
 
 	// example local notification id
@@ -37,98 +41,82 @@ public class BeaconsActivity extends BaseActivity
 	private BCSite mSite;
 
 	@Override
-	protected void onCreate( Bundle savedInstanceState )
-	{
-		super.onCreate( savedInstanceState );
-		mBinding = DataBindingUtil.setContentView( this, R.layout.activity_beacons );
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mBinding = DataBindingUtil.setContentView(this, R.layout.activity_beacons);
 
-		setSupportActionBar( mBinding.toolbar );
+		setSupportActionBar(mBinding.toolbar);
 
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled( true );
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		final Intent intent = getIntent();
-		mSite = intent.getParcelableExtra( BlueCatsSDK.EXTRA_SITE );
-		setTitle( mSite.getName() );
+		mSite = intent.getParcelableExtra(BlueCatsSDK.EXTRA_SITE);
+		setTitle(mSite.getName());
 
-		final BeaconsTabAdapter tabAdapter = new BeaconsTabAdapter( getSupportFragmentManager(), Arrays.asList(
-				BeaconProximityFragment.newInstance( mSite, BCProximity.BC_PROXIMITY_IMMEDIATE ),
-				BeaconProximityFragment.newInstance( mSite, BCProximity.BC_PROXIMITY_NEAR ),
-				BeaconProximityFragment.newInstance( mSite, BCProximity.BC_PROXIMITY_FAR ),
-				BeaconProximityFragment.newInstance( mSite, BCProximity.BC_PROXIMITY_UNKNOWN )
-		) );
+		final BeaconsTabAdapter tabAdapter = new BeaconsTabAdapter(getSupportFragmentManager(), Arrays.asList(
+				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_IMMEDIATE),
+				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_NEAR),
+				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_FAR),
+				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_UNKNOWN)
+		));
 
-		mBinding.viewPager.setAdapter( tabAdapter );
-		mBinding.tabLayout.setupWithViewPager( mBinding.viewPager );
-		mBinding.tabLayout.setTabTextColors( Color.argb( 128, 255, 255, 255 ), Color.WHITE );
+		mBinding.viewPager.setAdapter(tabAdapter);
+		mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
+		mBinding.tabLayout.setTabTextColors(Color.argb(128, 255, 255, 255), Color.WHITE);
 
-		/*
-		 * LOCAL NOTIFICATION EXAMPLE
-		 */
-		final BCLocalNotification localNotification = new BCLocalNotification( NOTIFICATION_ID );
-
-		// can add an optional site to trigger in
-		//BCSite site = new BCSite();
-		//site.setSiteID("SITE_ID_HERE");
-		//site.setName("SITE_NAME_HERE");
-		//localNotification.setFireInSite(site);
-
+		final BCLocalNotification localNotification = new BCLocalNotification(NOTIFICATION_ID);
 		// optional time to trigger the event after, eg 10 seconds from now
-		localNotification.setFireAfter( new Date( new Date().getTime() + ( 10 * 1000 ) ) );
+		//localNotification.setFireAfter(new Date(new Date().getTime() + (10 * 1000)));
 
 		// add a category or several categories to trigger the notification
 		final BCCategory category = new BCCategory();
-		category.setName( "CATEGORY_NAME" );
+		category.setName("CATEGORY_NAME");
 
 		final List<BCCategory> categories = new ArrayList<>();
-		categories.add( category );
+		categories.add(category);
 
-		localNotification.setFireInCategories( categories );
+		localNotification.setFireInCategories(categories);
 
 		// can add an optional proximity to trigger event
-		localNotification.setFireInProximity( BCProximity.BC_PROXIMITY_IMMEDIATE );
+		localNotification.setFireInProximity(BCProximity.BC_PROXIMITY_IMMEDIATE);
 
 		// set alert title and content
-		localNotification.setAlertContentTitle( "ALERT_TITLE" );
-		localNotification.setAlertContentText( "ALERT_CONTENT" );
+		localNotification.setAlertContentTitle("There is a story Nearby!");
+		localNotification.setAlertContentText("Click to view");
 
 		// launch icon and ringtone are optional. will just default ringtone and app icon for defaults
-		localNotification.setAlertSmallIcon( R.mipmap.ic_launcher );
-		localNotification.setAlertSound( RingtoneManager.getDefaultUri( RingtoneManager.TYPE_NOTIFICATION ) );
+		localNotification.setAlertSmallIcon(R.mipmap.ic_launcher);
 
 		// this controls where the notification takes you.
 		// can also contain a bundle or any extra info that you might want to unpack
-		final Intent contentIntent = new Intent( BeaconsActivity.this, SitesActivity.class );
-		localNotification.setContentIntent( contentIntent );
+		final Intent contentIntent = new Intent(BeaconsActivity.this, SitesActivity.class);
+		localNotification.setContentIntent(contentIntent);
 
-		BCLocalNotificationManager.getInstance().scheduleLocalNotification( localNotification );
+		BCLocalNotificationManager.getInstance().scheduleLocalNotification(localNotification);
 	}
 
 	@Override
-	protected void onResume()
-	{
+	protected void onResume() {
 		super.onResume();
 
-		Log.d( TAG, "onResume" );
+		Log.d(TAG, "onResume");
 
 		BlueCatsSDK.didEnterForeground();
 	}
 
 	@Override
-	protected void onPause()
-	{
+	protected void onPause() {
 		super.onPause();
 
-		Log.d( TAG, "onPause" );
+		Log.d(TAG, "onPause");
 
 		BlueCatsSDK.didEnterBackground();
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( final MenuItem item )
-	{
-		switch( item.getItemId() )
-		{
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
 			case android.R.id.home:
 				onBackPressed();
 				break;
@@ -136,4 +124,35 @@ public class BeaconsActivity extends BaseActivity
 
 		return true;
 	}
+
+	private void createBasicTrigger() {
+		//generate a trigger with a random identifier
+		final BCTrigger trigger = new BCTrigger();
+
+		//add your filters
+		//filter by sites
+		trigger.addFilter(BCEventFilter.filterBySitesNamed(Arrays.asList(
+				"my desk",
+				"Long Table"
+		)));
+
+		trigger.addFilter(BCEventFilter.filterByClosestBeaconChanged());
+
+		//filter to within 10cm
+		//trigger.addFilter(BCEventFilter.filterByAccuracyRangeFrom(0.0, 0.1));
+
+		//repeat indefinitely, or however many times you want
+		trigger.setRepeatCount(Integer.MAX_VALUE);
+
+		//add your trigger to the event manager
+		BCEventManager.getInstance().monitorEventWithTrigger(trigger, mEventManagerCallback);
+	}
+
+	private final BCEventManagerCallback mEventManagerCallback = new BCEventManagerCallback() {
+		@Override
+		public void onTriggeredEvent(final BCTriggeredEvent bcTriggeredEvent) {
+
+
+		}
+	};
 }
