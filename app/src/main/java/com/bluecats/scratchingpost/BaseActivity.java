@@ -30,76 +30,6 @@ public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private BCBeacon closestBCBeacon, lastClosestBCBeacon;
 
-    private BCBeaconManagerCallback mBeaconManagerCallback = new BCBeaconManagerCallback() {
-        @Override
-        public void didEnterSite(final BCSite site) {
-            Log.d(TAG, "Enter Site " + site.getName());
-        }
-
-        @Override
-        public void didExitSite(final BCSite site) {
-            Log.d(TAG, "Exit Site " + site.getName());
-        }
-
-        @Override
-        public void didDetermineState(final BCSite.BCSiteState state, final BCSite forSite) {
-            Log.d(TAG, "Determined Site " + state.name());
-        }
-
-        @Override
-        public void didEnterBeacons(final List<BCBeacon> beacons) {
-            Log.d(TAG, "didEnterBeacons: " + beacons.size());
-        }
-
-        @Override
-        public void didExitBeacons(final List<BCBeacon> beacons) {
-            Log.d(TAG, "Exit Beacons" + beacons.toString());
-        }
-
-        @Override
-        public void didDetermineState(final BCBeacon.BCBeaconState state, final BCBeacon forBeacon) {
-        }
-
-        @Override
-        public void didRangeBeacons(final List<BCBeacon> beacons) {
-            Log.d(TAG, "didRangeBeacons: " + beacons.size());
-            if( !beacons.isEmpty() ) {
-                lastClosestBCBeacon = closestBCBeacon;
-                closestBCBeacon = getClosestBeacon(beacons);
-                Log.d( TAG, "Closest Beacon: " + closestBCBeacon.getName() );
-
-                if ( lastClosestBCBeacon != null && !lastClosestBCBeacon.equals(closestBCBeacon) ) {
-                    notifyUser();
-                }
-            }
-
-        }
-
-        @Override
-        public void didRangeBlueCatsBeacons(final List<BCBeacon> beacons) {
-        }
-
-        @Override
-        public void didRangeNewbornBeacons(final List<BCBeacon> newBornBeacons) {
-        }
-
-        @Override
-        public void didRangeIBeacons(final List<BCBeacon> iBeacons) {
-        }
-
-        @Override
-        public void didRangeEddystoneBeacons(final List<BCBeacon> eddystoneBeacons) {
-            Log.d(TAG, "EddyStone Beacons: " + eddystoneBeacons.size());
-        }
-
-        @Override
-        public void didDiscoverEddystoneURL(final URL eddystoneUrl) {
-            Log.d(TAG, "EddyStone URL: " + eddystoneUrl.toString());
-
-        }
-    };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +76,77 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private BCBeaconManagerCallback mBeaconManagerCallback = new BCBeaconManagerCallback() {
+        @Override
+        public void didEnterSite(final BCSite site) {
+            Log.d(TAG, "Enter Site " + site.getName());
+        }
+
+        @Override
+        public void didExitSite(final BCSite site) {
+            Log.d(TAG, "Exit Site " + site.getName());
+        }
+
+        @Override
+        public void didDetermineState(final BCSite.BCSiteState state, final BCSite forSite) {
+            Log.d(TAG, "Determined Site " + state.name());
+        }
+
+        @Override
+        public void didEnterBeacons(final List<BCBeacon> beacons) {
+            Log.d(TAG, "didEnterBeacons: " + beacons.size());
+        }
+
+        @Override
+        public void didExitBeacons(final List<BCBeacon> beacons) {
+            Log.d(TAG, "Exit Beacons" + beacons.toString());
+        }
+
+        @Override
+        public void didDetermineState(final BCBeacon.BCBeaconState state, final BCBeacon forBeacon) {
+        }
+
+        @Override
+        public void didRangeBeacons(final List<BCBeacon> beacons) {
+            Log.d(TAG, "didRangeBeacons: " + beacons.size());
+            if( !beacons.isEmpty() ) {
+                lastClosestBCBeacon = closestBCBeacon;
+                closestBCBeacon = getClosestBeacon(beacons);
+                Log.d( TAG, "Closest Beacon: " + closestBCBeacon.getName() );
+
+                if ( lastClosestBCBeacon != null && !lastClosestBCBeacon.equals(closestBCBeacon) && closestBCBeacon.isEddystone()) {
+                    //webDirect();
+                    notifyUser();
+                }
+            }
+
+        }
+
+        @Override
+        public void didRangeBlueCatsBeacons(final List<BCBeacon> beacons) {
+        }
+
+        @Override
+        public void didRangeNewbornBeacons(final List<BCBeacon> newBornBeacons) {
+        }
+
+        @Override
+        public void didRangeIBeacons(final List<BCBeacon> iBeacons) {
+        }
+
+        @Override
+        public void didRangeEddystoneBeacons(final List<BCBeacon> eddystoneBeacons) {
+            Log.d(TAG, "EddyStone Beacons: " + eddystoneBeacons.size());
+        }
+
+        @Override
+        public void didDiscoverEddystoneURL(final URL eddystoneUrl) {
+            Log.d(TAG, "EddyStone URL: " + eddystoneUrl.toString());
+
+            webDirect(eddystoneUrl);
+        }
+    };
+
     private BCBeacon getClosestBeacon(List<BCBeacon> beacons) {
         int i = 0;
         BCBeacon closestBCBeacon = beacons.get(0);
@@ -159,8 +160,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void notifyUser() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(BaseActivity.this, SitesActivity.class);
+
         final PendingIntent pIntent = PendingIntent.getActivity(BaseActivity.this, 0, intent, 0);
+
         Notification notification = new Notification.Builder(BaseActivity.this)
                 .setTicker("TickerTitle")
                 .setContentTitle("There is a story nearby!")
@@ -173,6 +176,12 @@ public class BaseActivity extends AppCompatActivity {
 
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(0, notification);
+    }
+
+    private void webDirect(final URL eddystoneUrl) {
+        Uri uri = Uri.parse(eddystoneUrl.toString());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
 }

@@ -33,7 +33,6 @@ import java.util.List;
 public class BeaconsActivity extends BaseActivity {
 	private static final String TAG = "BeaconsActivity";
 
-	// example local notification id
 	// each notification in your app will need a unique id
 	private static final int NOTIFICATION_ID = 11;
 
@@ -129,7 +128,6 @@ public class BeaconsActivity extends BaseActivity {
 		//generate a trigger with a random identifier
 		final BCTrigger trigger = new BCTrigger();
 
-		//add your filters
 		//filter by sites
 		trigger.addFilter(BCEventFilter.filterBySitesNamed(Arrays.asList(
 				"my desk",
@@ -151,7 +149,6 @@ public class BeaconsActivity extends BaseActivity {
 	private final BCEventManagerCallback mEventManagerCallback = new BCEventManagerCallback() {
 		@Override
 		public void onTriggeredEvent(final BCTriggeredEvent bcTriggeredEvent) {
-
 
 		}
 	};
