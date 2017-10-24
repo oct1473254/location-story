@@ -39,7 +39,7 @@
 					android:id="@+id/rcy_sites_inside"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					tools:listitem="@layout/item_site"/>
+					tools:listitem="@layout/item_beacon"/>
 
 				<TextView
 					android:layout_width="match_parent"
@@ -54,7 +54,7 @@
 					android:id="@+id/rcy_sites_nearby"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					tools:listitem="@layout/item_site"/>
+					tools:listitem="@layout/item_beacon"/>
 
 			</LinearLayout>
 

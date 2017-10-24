@@ -53,6 +53,7 @@ public class BeaconsActivity extends BaseActivity {
 		mSite = intent.getParcelableExtra(BlueCatsSDK.EXTRA_SITE);
 		setTitle(mSite.getName());
 
+
 		final BeaconsTabAdapter tabAdapter = new BeaconsTabAdapter(getSupportFragmentManager(), Arrays.asList(
 				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_IMMEDIATE),
 				BeaconProximityFragment.newInstance(mSite, BCProximity.BC_PROXIMITY_NEAR),
@@ -63,6 +64,7 @@ public class BeaconsActivity extends BaseActivity {
 		mBinding.viewPager.setAdapter(tabAdapter);
 		mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
 		mBinding.tabLayout.setTabTextColors(Color.argb(128, 255, 255, 255), Color.WHITE);
+
 
 		final BCLocalNotification localNotification = new BCLocalNotification(NOTIFICATION_ID);
 		// optional time to trigger the event after, eg 10 seconds from now

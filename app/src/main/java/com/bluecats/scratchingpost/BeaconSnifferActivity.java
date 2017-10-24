@@ -87,7 +87,7 @@ public class BeaconSnifferActivity extends BaseActivity
 
 			for( final BCBeacon beacon : beacons )
 			{
-				if( !mBeacons.contains( beacon ) )
+				if( !mBeacons.contains( beacon ) && beacon.isEddystone())
 				{
 					mBeacons.add( beacon );
 
@@ -112,7 +112,7 @@ public class BeaconSnifferActivity extends BaseActivity
 			for( final BCBeacon beacon : beacons )
 			{
 				final int index = mBeacons.indexOf( beacon );
-				if( index > -1 )
+				if( index > -1 && beacon.isEddystone())
 				{
 					mBeacons.set( index, beacon );
 				}
