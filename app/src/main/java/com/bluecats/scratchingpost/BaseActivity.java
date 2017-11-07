@@ -42,7 +42,6 @@ public class BaseActivity extends AppCompatActivity {
 
         final BCBeaconManager beaconManager = new BCBeaconManager();
         beaconManager.registerCallback(mBeaconManagerCallback);
-
     }
 
     @Override
@@ -119,19 +118,6 @@ public class BaseActivity extends AppCompatActivity {
                     notifyUser();
                 }
             }
-
-        }
-
-        @Override
-        public void didRangeBlueCatsBeacons(final List<BCBeacon> beacons) {
-        }
-
-        @Override
-        public void didRangeNewbornBeacons(final List<BCBeacon> newBornBeacons) {
-        }
-
-        @Override
-        public void didRangeIBeacons(final List<BCBeacon> iBeacons) {
         }
 
         @Override
@@ -143,7 +129,6 @@ public class BaseActivity extends AppCompatActivity {
         public void didDiscoverEddystoneURL(final URL eddystoneUrl) {
             Log.d(TAG, "EddyStone URL: " + eddystoneUrl.toString());
 
-            //webDirect(eddystoneUrl);
         }
     };
 
@@ -173,15 +158,7 @@ public class BaseActivity extends AppCompatActivity {
                 .setContentIntent(pIntent.getActivity(this, 0, intent, 0))
                 .getNotification();
 
-
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(0, notification);
     }
-
-    private void webDirect(final URL eddystoneUrl) {
-        Uri uri = Uri.parse(eddystoneUrl.toString());
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-    }
-
 }

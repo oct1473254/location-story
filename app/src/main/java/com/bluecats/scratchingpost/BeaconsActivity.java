@@ -55,8 +55,6 @@ public class BeaconsActivity extends BaseActivity {
 		mSite = intent.getParcelableExtra(BlueCatsSDK.EXTRA_SITE);
 		setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
-		mBinding.tabLayout.setTabTextColors(Color.argb(128, 255, 255, 255), Color.WHITE);
-
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.setWebViewClient(new WebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
