@@ -49,6 +49,7 @@ public class BeaconsAdapter extends RecyclerView.Adapter<BeaconsAdapter.ViewHold
 
 		final int colourPos = position % Constants.ROW_COLOURS.length;
 		holder.mBinding.getRoot().setBackgroundColor( Constants.ROW_COLOURS[colourPos] );
+
 		holder.mBinding.getRoot().setOnClickListener( new View.OnClickListener()
 		{
 			@Override

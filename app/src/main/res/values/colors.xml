@@ -1,4 +1,4 @@
 <resources>
-	<color name="colorPrimary">#0099CC</color>
-	<color name="colorAccent">@android:color/white</color>
+	<color name="colorPrimary">#cc0700</color>
+	<color name="colorAccent">#FFFFbb33</color>
 </resources>

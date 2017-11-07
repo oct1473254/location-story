@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
+import com.bluecats.scratchingpost.adapters.BeaconSnifferAdapter;
 import com.bluecats.scratchingpost.adapters.SitesAdapter;
 import com.bluecats.scratchingpost.databinding.ActivitySitesBinding;
+import com.bluecats.sdk.BCBeacon;
 import com.bluecats.sdk.BCBeaconManager;
 import com.bluecats.sdk.BCBeaconManagerCallback;
 import com.bluecats.sdk.BCSite;
@@ -28,6 +30,8 @@ public class SitesActivity extends BaseActivity
 	private final List<BCSite> mSitesNearby = Collections.synchronizedList( new ArrayList<BCSite>() );
 	private final SitesAdapter mAdapterSitesInside = new SitesAdapter( mSitesInside );
 	private final SitesAdapter mAdapterSitesNearby = new SitesAdapter( mSitesNearby );
+    private final List<BCBeacon> mBeacons = Collections.synchronizedList( new ArrayList<BCBeacon>() );
+    private final BeaconSnifferAdapter mBeaconsAdapter = new BeaconSnifferAdapter( mBeacons );
 	private final BCBeaconManager mBeaconManager = new BCBeaconManager();
 
 	private ActivitySitesBinding mBinding;

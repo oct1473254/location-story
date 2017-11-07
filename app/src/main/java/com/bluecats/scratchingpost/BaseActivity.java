@@ -143,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
         public void didDiscoverEddystoneURL(final URL eddystoneUrl) {
             Log.d(TAG, "EddyStone URL: " + eddystoneUrl.toString());
 
-            webDirect(eddystoneUrl);
+            //webDirect(eddystoneUrl);
         }
     };
 

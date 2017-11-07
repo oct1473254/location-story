@@ -36,9 +36,7 @@ public class BeaconSnifferActivity extends BaseActivity
 		mBinding = DataBindingUtil.setContentView( this, R.layout.activity_beacon_sniffer );
 
 		setSupportActionBar( mBinding.toolbar );
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled( true );
-
+        //mBeacons.get(0).getEddystone().getURL();
 		mBinding.rcyBeaconsSniffer.setAdapter( mBeaconsAdapter );
 		mBinding.rcyBeaconsSniffer.setLayoutManager( new LinearLayoutManager( this ) );
 	}
