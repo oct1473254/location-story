@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -53,12 +55,40 @@ public class BeaconsActivity extends BaseActivity {
 
 		final Intent intent = getIntent();
 		mSite = intent.getParcelableExtra(BlueCatsSDK.EXTRA_SITE);
+
 		setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
 		webView = (WebView) findViewById(R.id.webView1);
-		webView.setWebViewClient(new WebViewClient());
+		webView.setWebViewClient(new WebViewClient() {
+			public boolean shouldOverrideUrlLoading(WebView view, String url){
+				return false;
+			}
+		});
 		webView.getSettings().setJavaScriptEnabled(true);
+		WebSettings settings = webView.getSettings();
+		settings.setLoadWithOverviewMode(true);
+		settings.setUseWideViewPort(true);
+		settings.setJavaScriptEnabled(true);
+
+		settings.setAppCacheEnabled(false);
+		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+		settings.setDatabaseEnabled(false);
+		settings.setDomStorageEnabled(false);
+		settings.setGeolocationEnabled(false);
+		settings.setSaveFormData(false);
+
 		webView.loadUrl(mSite.getCachedBeacons().get(0).getEddystone().getURL());
+
+		webView.setWebChromeClient(new WebChromeClient() {
+			public void onProgressChanged(WebView view, int progress)
+			{
+				setTitle("Loading...");
+				setProgress(progress * 100);
+
+				if(progress == 100)
+					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
+			}
+		});
 	}
 
 	@Override
