@@ -83,7 +83,8 @@ public class SitesActivity extends BaseActivity
 				//Update site in list
 				mSitesInside.set( mSitesInside.indexOf( site ), site );
 			}
-			else if( !mSitesNearby.contains( site ) )
+			else
+				if( !mSitesNearby.contains( site ) )
 			{
 				mSitesNearby.add( site );
 			}

@@ -7,7 +7,7 @@ android {
 	defaultConfig {
 		applicationId "com.bluecats.scratchingpost"
 		minSdkVersion 14
-		targetSdkVersion 24
+		targetSdkVersion 25
 	}
 	buildTypes {
 		release {
@@ -15,6 +15,7 @@ android {
 			proguardFiles getDefaultProguardFile( 'proguard-android-optimize.txt' ), 'proguard-rules.pro'
 		}
 	}
+
 	dataBinding {
 		enabled true
 	}
@@ -25,6 +26,6 @@ dependencies {
 
 	//Support Libraries
 	compile 'com.android.support:recyclerview-v7:24.1.1'
-	compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:appcompat-v7:24.1.1'
 	compile 'com.android.support:design:24.1.1'
 }

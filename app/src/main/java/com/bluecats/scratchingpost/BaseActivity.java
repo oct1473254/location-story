@@ -1,12 +1,17 @@
 package com.bluecats.scratchingpost;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.*;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.*;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +37,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_site);
 
@@ -42,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
 
         final BCBeaconManager beaconManager = new BCBeaconManager();
         beaconManager.registerCallback(mBeaconManagerCallback);
+
     }
 
     @Override

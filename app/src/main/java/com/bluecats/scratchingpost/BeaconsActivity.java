@@ -3,6 +3,8 @@ package com.bluecats.scratchingpost;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.location.LocationManager;
+import android.media.Image;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -13,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.bluecats.scratchingpost.adapters.BeaconsTabAdapter;
 import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
@@ -43,9 +46,11 @@ public class BeaconsActivity extends BaseActivity {
 	private ActivityBeaconsBinding mBinding;
 	private BCSite mSite;
 	private WebView webView;
+	private ImageView loadingImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, R.layout.activity_beacons);
 
@@ -59,6 +64,8 @@ public class BeaconsActivity extends BaseActivity {
 		setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
 		webView = (WebView) findViewById(R.id.webView1);
+		loadingImage = (ImageView) findViewById(R.id.imageView);
+
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
 				return false;
@@ -83,10 +90,14 @@ public class BeaconsActivity extends BaseActivity {
 			public void onProgressChanged(WebView view, int progress)
 			{
 				setTitle("Loading...");
+				loadingImage.setVisibility(view.VISIBLE);
 				setProgress(progress * 100);
 
 				if(progress == 100)
+				{
 					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
+					loadingImage.setVisibility(view.INVISIBLE);
+				}
 			}
 		});
 	}
