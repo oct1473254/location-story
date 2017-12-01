@@ -85,7 +85,6 @@ public class BaseActivity extends AppCompatActivity {
                 Log.d( TAG, "Closest Beacon: " + closestBCBeacon.getName() );
 
                 if ( lastClosestBCBeacon != null && !lastClosestBCBeacon.equals(closestBCBeacon) && closestBCBeacon.isEddystone()) {
-                    //webDirect();
                     notifyUser();
                 }
             }
@@ -95,11 +94,23 @@ public class BaseActivity extends AppCompatActivity {
         public void didRangeEddystoneBeacons(final List<BCBeacon> eddystoneBeacons) {
             Log.d(TAG, "EddyStone Beacons: " + eddystoneBeacons.size());
         }
-
+        public void didEnterSite( final BCSite site ) {
+            Log.d(TAG, "Entered Site: " + site);
+        }
         @Override
         public void didDiscoverEddystoneURL(final URL eddystoneUrl) {
             Log.d(TAG, "EddyStone URL: " + eddystoneUrl.toString());
+        }
+        public void didDetermineState( final BCSite.BCSiteState state, final BCSite forSite ) {
+        }
 
+        @Override
+        public void didExitBeacons( final List<BCBeacon> beacons ) {
+            Log.d(TAG, "Exit Beacons: " + beacons);
+        }
+        @Override
+        public void didExitSite( final BCSite site ) {
+            Log.d(TAG, "Exit site: " + site);
         }
     };
 

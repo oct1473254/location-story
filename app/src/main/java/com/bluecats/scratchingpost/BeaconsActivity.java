@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -61,8 +63,14 @@ public class BeaconsActivity extends BaseActivity {
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-				return false;
+				webView.loadUrl(url);
+                return false;
 			}
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+
+                handler.proceed();
+
+            }
 		});
 		webView.getSettings().setJavaScriptEnabled(true);
 		WebSettings settings = webView.getSettings();
@@ -73,9 +81,11 @@ public class BeaconsActivity extends BaseActivity {
 		settings.setAppCacheEnabled(false);
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDatabaseEnabled(false);
-		settings.setDomStorageEnabled(false);
+		settings.setDomStorageEnabled(true);
 		settings.setGeolocationEnabled(false);
 		settings.setSaveFormData(false);
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
 
 		webView.loadUrl(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
