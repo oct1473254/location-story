@@ -1,5 +1,6 @@
 package com.bluecats.scratchingpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -15,7 +16,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bluecats.scratchingpost.adapters.BeaconsTabAdapter;
 import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
@@ -92,6 +95,8 @@ public class BeaconsActivity extends BaseActivity {
 		webView.loadUrl(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
 		loadingImage = (ImageView) findViewById(R.id.imageView);
+
+
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress)
