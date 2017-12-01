@@ -116,6 +116,7 @@ public class SitesActivity extends BaseActivity
 					if( mSitesNearby.add( site ) )
 					{
 						mAdapterSitesNearby.notifyDataSetChanged();
+						mSitesNearby.remove(site);
 					}
 				}
 			} );

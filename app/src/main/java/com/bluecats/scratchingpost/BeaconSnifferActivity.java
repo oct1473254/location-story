@@ -39,6 +39,7 @@ public class BeaconSnifferActivity extends BaseActivity
         //mBeacons.get(0).getEddystone().getURL();
 		mBinding.rcyBeaconsSniffer.setAdapter( mBeaconsAdapter );
 		mBinding.rcyBeaconsSniffer.setLayoutManager( new LinearLayoutManager( this ) );
+
 	}
 
 	@Override
@@ -88,6 +89,7 @@ public class BeaconSnifferActivity extends BaseActivity
 				if( !mBeacons.contains( beacon ) && beacon.isEddystone())
 				{
 					mBeacons.add( beacon );
+					remove_dubs(beacons);
 
 					runOnUiThread( new Runnable()
 					{
@@ -98,6 +100,7 @@ public class BeaconSnifferActivity extends BaseActivity
 						}
 					} );
 				}
+
 			}
 		}
 
@@ -135,6 +138,9 @@ public class BeaconSnifferActivity extends BaseActivity
 					mBeaconsAdapter.notifyDataSetChanged();
 				}
 			} );
+
+            remove_dubs(beacons);
+			remove_distant(beacons);
 		}
 
 		@Override
@@ -157,6 +163,69 @@ public class BeaconSnifferActivity extends BaseActivity
 					} );
 				}
 			}
+			remove_distant(beacons);
+		}
+
+		// Searches the list for duplicate beacons and removes them
+		public void remove_dubs(final List<BCBeacon> beacons)
+        {
+
+            // make sure any duplicates are removed
+            for(int i = 0; i < mBeacons.size(); i ++)
+            {
+                BCBeacon current_beacon = beacons.get(i);
+
+                for(int j = 0; j < mBeacons.size(); j++)
+                {
+                    if (j!=i && current_beacon.getName().equals(mBeacons.get(j).getName()))
+                    {
+                        mBeacons.remove(j);
+
+						final int indx = j;
+						runOnUiThread( new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								mBeaconsAdapter.notifyItemRemoved( indx );
+							}
+						} );
+                    }
+                }
+            }
+
+			runOnUiThread( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mBeaconsAdapter.notifyDataSetChanged();
+				}
+			} );
+        }
+
+        // removes every beacon
+		public void remove_distant(final List<BCBeacon> beacons)
+		{
+
+			// make sure any duplicates are removed
+			for(int i = 0; i < mBeacons.size(); i ++)
+			{
+				if (beacons.get(i).getProximity().getValue() < Constants.FURTHEST_DIST)
+				{
+					mBeacons.remove(i);
+				}
+
+			}
+
+			runOnUiThread( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					mBeaconsAdapter.notifyDataSetChanged();
+				}
+			} );
 		}
 	};
 }

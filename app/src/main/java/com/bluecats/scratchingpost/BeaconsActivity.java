@@ -93,7 +93,7 @@ public class BeaconsActivity extends BaseActivity {
 				loadingImage.setVisibility(view.VISIBLE);
 				setProgress(progress * 100);
 
-				if(progress == 100)
+				if(progress > 95)
 				{
 					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 					loadingImage.setVisibility(view.INVISIBLE);
