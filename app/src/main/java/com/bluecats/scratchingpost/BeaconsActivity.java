@@ -15,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.bluecats.scratchingpost.adapters.BeaconsTabAdapter;
 import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
@@ -39,12 +40,12 @@ import java.util.List;
 public class BeaconsActivity extends BaseActivity {
 	private static final String TAG = "BeaconsActivity";
 
-	// each notification in your app will need a unique id
-	private static final int NOTIFICATION_ID = 11;
+	//rivate static final int NOTIFICATION_ID = 11;
 
 	private ActivityBeaconsBinding mBinding;
 	private BCSite mSite;
 	private WebView webView;
+	private ImageView loadingImage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class BeaconsActivity extends BaseActivity {
 		setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
 		webView = (WebView) findViewById(R.id.webView1);
+
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
 				webView.loadUrl(url);
@@ -72,7 +74,7 @@ public class BeaconsActivity extends BaseActivity {
 
             }
 		});
-		webView.getSettings().setJavaScriptEnabled(true);
+
 		WebSettings settings = webView.getSettings();
 		settings.setLoadWithOverviewMode(true);
 		settings.setUseWideViewPort(true);
@@ -89,14 +91,19 @@ public class BeaconsActivity extends BaseActivity {
 
 		webView.loadUrl(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
+		loadingImage = (ImageView) findViewById(R.id.imageView);
+
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress)
 			{
 				setTitle("Loading...");
+				loadingImage.setVisibility(view.VISIBLE);
 				setProgress(progress * 100);
 
-				if(progress == 100)
+				if(progress > 95) {
 					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
+					loadingImage.setVisibility(view.INVISIBLE);
+				}
 			}
 		});
 	}
