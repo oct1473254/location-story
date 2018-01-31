@@ -151,6 +151,7 @@ public class BeaconSnifferActivity extends BaseActivity
 				if( mBeacons.contains( beacon ) )
 				{
 					final int index = mBeacons.indexOf( beacon );
+					Log.d(TAG, "didExitBeacon: " + index + " " + beacon.getName() + " " + beacon.getSiteName());
 					mBeacons.remove( index );
 
 					runOnUiThread( new Runnable()
@@ -158,6 +159,7 @@ public class BeaconSnifferActivity extends BaseActivity
 						@Override
 						public void run()
 						{
+							Log.d(TAG, "Notify removed " + index);
 							mBeaconsAdapter.notifyItemRemoved( index );
 						}
 					} );

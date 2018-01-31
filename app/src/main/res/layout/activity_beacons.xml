@@ -5,12 +5,12 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:weightSum="1">
+		android:orientation="vertical">
 
 		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="match_parent"
+			android:orientation="vertical">
 
 			<android.support.v7.widget.Toolbar
 				android:id="@+id/toolbar"
@@ -22,11 +22,11 @@
 				android:layout_height="match_parent"
 				android:layout_gravity="bottom">
 
-				<WebView
+				<WebView xmlns:android="http://schemas.android.com/apk/res/android"
 					android:id="@+id/webView1"
 					android:layout_width="match_parent"
-					android:layout_height="500dp"
-					android:layout_gravity="bottom">
+					android:layout_height="match_parent"
+					android:visibility="visible">
 
 				</WebView>
 
@@ -34,12 +34,20 @@
 					android:id="@+id/imageView"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:visibility="visible"
 					android:contentDescription="@string/the_loading_image"
 					app:srcCompat="@drawable/bobkitten_loading" />
 
 			</FrameLayout>
 
+
 		</android.support.design.widget.AppBarLayout>
+
+
+
+
+
+
 
 	</LinearLayout>
 

@@ -4,11 +4,11 @@
 	<string name="SitesActivity.sites_inside">Stories Inside</string>
 	<string name="SitesActivity.sites_nearby">Stories Nearby</string>
 
-	<string name="BeaconSnifferActivity.title">Searching for Beacons...</string>
+	<string name="BeaconSnifferActivity.title">Looking for Stories</string>
 
 	<string name="Utilities.location_permission_rationale">Enable location</string>
 
 	<string name="btn_view">View</string>
-    <string name="the_loading_image">The loading image for beacon page</string>
 
+	<string name="the_loading_image">The loading image for the web story</string>
 </resources>

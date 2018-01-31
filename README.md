@@ -37,7 +37,7 @@ A BCMicroLocation object represents the sites and beacons in proximity to the us
 You receive beacon events from the BCBeaconManager object, passing in your callback and your activity.
 ``` java
 @Override
-protected void onCreate( final Bundle savedInstanceState )
+prote7cted void onCreate( final Bundle savedInstanceState )
 {
 	super.onCreate( savedInstanceState );
 	setContentView( R.layout.sites );

@@ -1,21 +1,24 @@
 package com.bluecats.scratchingpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.location.LocationManager;
-import android.media.Image;
 import android.media.RingtoneManager;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bluecats.scratchingpost.adapters.BeaconsTabAdapter;
 import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
@@ -40,8 +43,7 @@ import java.util.List;
 public class BeaconsActivity extends BaseActivity {
 	private static final String TAG = "BeaconsActivity";
 
-	// each notification in your app will need a unique id
-	private static final int NOTIFICATION_ID = 11;
+	//rivate static final int NOTIFICATION_ID = 11;
 
 	private ActivityBeaconsBinding mBinding;
 	private BCSite mSite;
@@ -50,7 +52,6 @@ public class BeaconsActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		mBinding = DataBindingUtil.setContentView(this, R.layout.activity_beacons);
 
@@ -64,14 +65,19 @@ public class BeaconsActivity extends BaseActivity {
 		setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 
 		webView = (WebView) findViewById(R.id.webView1);
-		loadingImage = (ImageView) findViewById(R.id.imageView);
 
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-				return false;
+				webView.loadUrl(url);
+                return false;
 			}
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+
+                handler.proceed();
+
+            }
 		});
-		webView.getSettings().setJavaScriptEnabled(true);
+
 		WebSettings settings = webView.getSettings();
 		settings.setLoadWithOverviewMode(true);
 		settings.setUseWideViewPort(true);
@@ -80,11 +86,17 @@ public class BeaconsActivity extends BaseActivity {
 		settings.setAppCacheEnabled(false);
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDatabaseEnabled(false);
-		settings.setDomStorageEnabled(false);
+		settings.setDomStorageEnabled(true);
 		settings.setGeolocationEnabled(false);
 		settings.setSaveFormData(false);
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
 
 		webView.loadUrl(mSite.getCachedBeacons().get(0).getEddystone().getURL());
+
+		loadingImage = (ImageView) findViewById(R.id.imageView);
+
+
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress)
@@ -93,8 +105,7 @@ public class BeaconsActivity extends BaseActivity {
 				loadingImage.setVisibility(view.VISIBLE);
 				setProgress(progress * 100);
 
-				if(progress > 95)
-				{
+				if(progress > 95) {
 					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 					loadingImage.setVisibility(view.INVISIBLE);
 				}

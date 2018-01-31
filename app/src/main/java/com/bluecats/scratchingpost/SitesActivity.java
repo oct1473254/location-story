@@ -31,7 +31,6 @@ public class SitesActivity extends BaseActivity
 	private final SitesAdapter mAdapterSitesInside = new SitesAdapter( mSitesInside );
 	private final SitesAdapter mAdapterSitesNearby = new SitesAdapter( mSitesNearby );
     private final List<BCBeacon> mBeacons = Collections.synchronizedList( new ArrayList<BCBeacon>() );
-    private final BeaconSnifferAdapter mBeaconsAdapter = new BeaconSnifferAdapter( mBeacons );
 	private final BCBeaconManager mBeaconManager = new BCBeaconManager();
 
 	private ActivitySitesBinding mBinding;
@@ -83,8 +82,7 @@ public class SitesActivity extends BaseActivity
 				//Update site in list
 				mSitesInside.set( mSitesInside.indexOf( site ), site );
 			}
-			else
-				if( !mSitesNearby.contains( site ) )
+			else if( !mSitesNearby.contains( site ) )
 			{
 				mSitesNearby.add( site );
 			}
@@ -111,12 +109,6 @@ public class SitesActivity extends BaseActivity
 					if( mSitesInside.remove( site ) )
 					{
 						mAdapterSitesInside.notifyDataSetChanged();
-					}
-
-					if( mSitesNearby.add( site ) )
-					{
-						mAdapterSitesNearby.notifyDataSetChanged();
-						mSitesNearby.remove(site);
 					}
 				}
 			} );
