@@ -100,9 +100,9 @@ public class SitesActivity extends BaseActivity
 				@Override
 				public void run()
 				{
-					if( mSitesInside.remove( site ) )
+					if( mSitesNearby.remove( site ) )
 					{
-						mAdapterSitesInside.notifyDataSetChanged();
+						mAdapterSitesNearby.notifyDataSetChanged();
 					}
 				}
 			} );
