@@ -1,34 +1,21 @@
 package com.bluecats.scratchingpost;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.*;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.*;
 import android.util.Log;
-import android.view.View;
 
 import com.bluecats.sdk.BCBeacon;
 import com.bluecats.sdk.BCBeaconManager;
 import com.bluecats.sdk.BCBeaconManagerCallback;
 import com.bluecats.sdk.BCSite;
-import com.bluecats.sdk.BCZoneMonitor;
-import com.bluecats.sdk.BCZoneMonitorCallback;
 import com.bluecats.sdk.BlueCatsSDK;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
-
-import static android.os.Build.VERSION_CODES.N;
 
 public class BaseActivity extends AppCompatActivity {
     protected ApplicationPermissions mPermissions;

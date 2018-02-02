@@ -1,14 +1,13 @@
 package com.bluecats.scratchingpost;
 
-import android.app.ProgressDialog;
+
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.media.RingtoneManager;
+import android.media.AudioManager;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.SslErrorHandler;
@@ -16,34 +15,15 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.bluecats.scratchingpost.adapters.BeaconsTabAdapter;
+
 import com.bluecats.scratchingpost.databinding.ActivityBeaconsBinding;
-import com.bluecats.scratchingpost.fragments.BeaconProximityFragment;
-import com.bluecats.sdk.BCBeacon.BCProximity;
-import com.bluecats.sdk.BCCategory;
-import com.bluecats.sdk.BCEventFilter;
-import com.bluecats.sdk.BCEventManager;
-import com.bluecats.sdk.BCEventManagerCallback;
-import com.bluecats.sdk.BCLocalNotification;
-import com.bluecats.sdk.BCLocalNotificationManager;
 import com.bluecats.sdk.BCSite;
-import com.bluecats.sdk.BCTrigger;
-import com.bluecats.sdk.BCTriggeredEvent;
 import com.bluecats.sdk.BlueCatsSDK;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 public class BeaconsActivity extends BaseActivity {
 	private static final String TAG = "BeaconsActivity";
-
-	//rivate static final int NOTIFICATION_ID = 11;
 
 	private ActivityBeaconsBinding mBinding;
 	private BCSite mSite;
@@ -127,6 +107,11 @@ public class BeaconsActivity extends BaseActivity {
 		super.onPause();
 
 		Log.d(TAG, "onPause");
+		((AudioManager) getSystemService(
+				Context.AUDIO_SERVICE)).requestAudioFocus(
+				null,
+				AudioManager.STREAM_MUSIC,
+				AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
 		BlueCatsSDK.didEnterBackground();
 	}
