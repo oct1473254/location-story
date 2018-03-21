@@ -20,9 +20,7 @@ public class SitesActivity extends BaseActivity
 	private static final String TAG = "SitesActivity";
 	private static final int LOCATION_PERMISSION_REQUEST_CODE = 0;
 
-	private final List<BCSite> mSitesInside = Collections.synchronizedList( new ArrayList<BCSite>() );
 	private final List<BCSite> mSitesNearby = Collections.synchronizedList( new ArrayList<BCSite>() );
-	private final SitesAdapter mAdapterSitesInside = new SitesAdapter( mSitesInside );
 	private final SitesAdapter mAdapterSitesNearby = new SitesAdapter( mSitesNearby );
 
 	private final BCBeaconManager mBeaconManager = new BCBeaconManager();
@@ -36,9 +34,6 @@ public class SitesActivity extends BaseActivity
 		mBinding = DataBindingUtil.setContentView( this, R.layout.activity_sites );
 
 		setSupportActionBar( mBinding.toolbar );
-
-		mBinding.rcySitesInside.setAdapter( mAdapterSitesInside );
-		mBinding.rcySitesInside.setLayoutManager( new LinearLayoutManager( this ) );
 
 		mBinding.rcySitesNearby.setAdapter( mAdapterSitesNearby );
 		mBinding.rcySitesNearby.setLayoutManager( new LinearLayoutManager( this ) );
@@ -71,12 +66,7 @@ public class SitesActivity extends BaseActivity
 		@Override
 		public void didEnterSite( final BCSite site )
 		{
-			if( mSitesInside.contains( site ) )
-			{
-				//Update site in list
-				mSitesInside.set( mSitesInside.indexOf( site ), site );
-			}
-			else if( !mSitesNearby.contains( site ) )
+			if( !mSitesNearby.contains( site ) )
 			{
 				mSitesNearby.add( site );
 			}
@@ -86,7 +76,6 @@ public class SitesActivity extends BaseActivity
 				@Override
 				public void run()
 				{
-					mAdapterSitesInside.notifyDataSetChanged();
 					mAdapterSitesNearby.notifyDataSetChanged();
 				}
 			} );

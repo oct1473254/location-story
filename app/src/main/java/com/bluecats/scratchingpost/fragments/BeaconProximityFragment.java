@@ -98,7 +98,7 @@ public class BeaconProximityFragment extends Fragment
 			mBeacons.clear();
 			for( final BCBeacon beacon : beacons )
 			{
-				//fixes for when there are too many beacons in range
+				//Fix for when there are too many beacons in range
 				try {
 					if (beacon.getSiteID().equals(mSite.getSiteID()) && beacon.getProximity().equals(mProximity)) {
 						mBeacons.add(beacon);

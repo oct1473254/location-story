@@ -21,13 +21,6 @@
 			android:text="@{site.name}"
 			android:textSize="20sp"/>
 
-		<TextView
-			android:id="@+id/txt_beacon_count"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text='@{site.beaconCount + (site.beaconCount == 1 ? " beacon" : " beacons")}'
-			android:textSize="15sp"/>
-
 	</LinearLayout>
 
 </layout>

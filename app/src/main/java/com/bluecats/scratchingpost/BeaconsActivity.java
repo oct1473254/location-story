@@ -51,6 +51,7 @@ public class BeaconsActivity extends BaseActivity {
 				webView.loadUrl(url);
                 return false;
 			}
+			//Fix to allow the its.locationstory domain
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
 
                 handler.proceed();
@@ -85,6 +86,7 @@ public class BeaconsActivity extends BaseActivity {
 				loadingImage.setVisibility(view.VISIBLE);
 				setProgress(progress * 100);
 
+				//Displays cat picture when loading website
 				if(progress > 95) {
 					setTitle(mSite.getCachedBeacons().get(0).getEddystone().getURL());
 					loadingImage.setVisibility(view.INVISIBLE);
@@ -107,6 +109,8 @@ public class BeaconsActivity extends BaseActivity {
 		super.onPause();
 
 		Log.d(TAG, "onPause");
+
+		//Fix to have audio stop playing when the app is paused
 		((AudioManager) getSystemService(
 				Context.AUDIO_SERVICE)).requestAudioFocus(
 				null,

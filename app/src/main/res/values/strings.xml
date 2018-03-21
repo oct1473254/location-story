@@ -11,4 +11,6 @@
 	<string name="btn_view">View</string>
 
 	<string name="the_loading_image">The loading image for the web story</string>
+
+	<string name="floor_map_desc">Map of beacons</string>
 </resources>
